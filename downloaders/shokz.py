@@ -1,45 +1,37 @@
+from aiohttp import ClientSession
 from os       import makedirs
-from json     import dumps
-from requests import post, get
+from aiofiles import open as open_async
 
 class Shokz:
     def __init__(self, folder_name):
         self.folder_name = folder_name
+        self.session     = ClientSession()
 
-    def get_download_url(self, link):
-        """
-        This function sends a post request to https://cobalt.tools/ and returns the download link url.
-        """
-        headers  = {'Content-Type': 'application/json', 'Accept': 'application/json'}
-        payload  = {'url': link, 'aFormat': 'mp3', 'filenamePattern': 'basic', 'dubLang': False, 'isAudioOnly': True, 'isNoTTWatermark': True, 'disableMetadata': True}
-        response = post('https://co.wuk.sh/api/json', headers=headers, data=dumps(payload))
-        dict     = response.json()
-        print(dict)
-        return dict['url']
+    async def close_session(self):
+        await self.session.close()
 
-    def download_url(self, url, filename):
-        """
-        This function downloads the file from the url. It saves it to a local downloads folder with the specified filename.
-        """
+    async def get_download_url(self, link):
+        headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+        payload = {'url': link, 'aFormat': 'mp3', 'filenamePattern': 'basic', 'dubLang': False, 'isAudioOnly': True, 'isNoTTWatermark': True, 'disableMetadata': True }
+        async with self.session.post('https://co.wuk.sh/api/json', headers=headers, json=payload) as response:
+            result = await response.json()
+            return result['url']
+
+    async def download_url(self, url, filename):
         print(f'Downloading: {filename}')
-        response = get(url, allow_redirects=True)
 
-        download_folder = f'./downloads/{self.folder_name}'
-        # make folder
-        try:
-            makedirs(download_folder)
-        except FileExistsError:
-            pass
-        # download into folder
-        with open(f'{download_folder}/{filename}', 'wb') as f:
-            f.write(response.content)
-        print(f'Downloaded: {self.folder_name}/{filename}')
+        async with self.session.get(url, allow_redirects=True) as response:
+            # make download folder
+            download_folder = f'./downloads/{self.folder_name}'
+            makedirs(download_folder, exist_ok=True)
 
-    def get_default_filename(self, url):
-        """
-        This function returns the default filename from the response headers.
-        """
-        response            = get(url, allow_redirects=True)
-        content_disposition = response.headers.get('content-disposition') # attachment; filename="together - redveil.mp3"
-        filename            = content_disposition.split('"')[1]
-        return filename
+            # download into folder
+            async with open_async(f'{download_folder}/{filename}', 'wb') as f_out:
+                await f_out.write(await response.read())
+            print(f'Downloaded: {self.folder_name}/{filename}')
+
+    async def get_default_filename(self, url):
+        async with self.session.get(url, allow_redirects=True) as response:
+            content_disposition = response.headers.get('content-disposition')
+            filename            = content_disposition.split('"')[1]
+            return filename
