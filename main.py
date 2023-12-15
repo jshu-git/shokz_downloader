@@ -2,7 +2,7 @@ from asyncio           import run as run_async, gather, create_task
 
 from downloaders.shokz import Shokz as ShokzDownloader
 
-async def task_helper(shokz: ShokzDownloader, link, index):
+async def download(shokz: ShokzDownloader, link, index):
     url              = await shokz.get_download_url(link)
     filename         = await shokz.get_default_filename(url)
     indexed_filename = f'{index} {filename}'
@@ -14,7 +14,7 @@ async def main(links):
 
     # schedule downloads tasks concurrently for each link
     for index, link in enumerate(links):
-        task = create_task(task_helper(shokz, link, index))
+        task = create_task(download(shokz, link, index))
         tasks.append(task)
     await gather(*tasks)
     await shokz.close_session()

@@ -28,7 +28,8 @@ class Shokz:
             # download into folder
             async with open_async(f'{download_folder}/{filename}', 'wb') as f_out:
                 await f_out.write(await response.read())
-            print(f'Downloaded: {self.folder_name}/{filename}')
+
+        print(f'Downloaded: {self.folder_name}/{filename}')
 
     async def get_default_filename(self, url):
         async with self.session.get(url, allow_redirects=True) as response:
