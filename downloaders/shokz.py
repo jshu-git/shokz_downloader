@@ -1,5 +1,5 @@
-from aiohttp import ClientSession
 from os       import makedirs
+from aiohttp  import ClientSession
 from aiofiles import open as open_async
 
 class Shokz:
