@@ -12,8 +12,7 @@ python main.py -d <downloads folder> -n <name> -u <url>
 ```
 usage: main.py [-h] [-d DOWNLOADS] -n NAME -u URL [-s SHOKZ]
 
-description: this script downloads .mp3 file(s) from a youtube playlist/link and copies them to a folder. if you have a Shokz device, it will copy the files to the device (in
-order)
+description: this script downloads .mp3 file(s) from a youtube playlist/link and copies them to a folder. if you have a Shokz device, it will copy the files to the device (in order)
 
 options:
   -h,           --help                show this help message and exit

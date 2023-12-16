@@ -6,10 +6,17 @@ class Shokz:
         self.volume_path = volume_path
 
     def create_folder(self, name):
+        '''
+        This function creates a folder on the Shokz device with the given name.
+        '''
         folder_path = path.join(self.volume_path, name)
         makedirs(folder_path, exist_ok=True)
 
     def copy_files(self, source_folder):
+        '''
+        This function copies the files from the given folder to the Shokz device.
+        It assumes the files are .mp3 files. If the files begin with a number, they are copied over in numerical order.
+        '''
         base  = path.basename(source_folder)
         files = [f for f in listdir(source_folder) if f.endswith('.mp3')]
         if len(files) > 1:
