@@ -50,7 +50,7 @@ def copy_to_shokz(args, save_path):
     shokz = Shokz(volume_path=args.shokz)
     shokz.create_folder(args.name)
     shokz.copy_files(source_folder=save_path)
-    # rmtree(save_path)
+    rmtree(save_path)
 
 if __name__ == '__main__':
     args      = parse()
