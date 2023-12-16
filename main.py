@@ -42,7 +42,7 @@ async def main_async(save_path, links):
     await gather(*tasks)
     await downloader.close_session()
 
-def copy_to_shokz(args):
+def copy_to_shokz(args, save_path):
     '''
     This function copies the locally downloaded files to the Shokz device.
     It then removes the local files.
@@ -50,17 +50,18 @@ def copy_to_shokz(args):
     shokz = Shokz(volume_path=args.shokz)
     shokz.create_folder(args.name)
     shokz.copy_files(source_folder=save_path)
-    rmtree(save_path)
+    # rmtree(save_path)
 
 if __name__ == '__main__':
     args      = parse()
     save_path = path.join(path.expanduser(args.downloads), args.name) # i.e. /Users/username/Downloads/Daniel Caesar - Freudian
     try:
+        # playlist download
         links = [link for link in Playlist(args.url)]
     except KeyError:
+        # single download
         links = [args.url]
-
     run_async(main_async(save_path, links))
 
     if args.shokz:
-        copy_to_shokz(args)
+        copy_to_shokz(args, save_path)

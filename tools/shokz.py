@@ -22,7 +22,6 @@ class Shokz:
         if len(files) > 1:
             # this assumes file names are in the format: '1 file.mp3', '2 file.mp3', etc. (the convention from main.py)
             files.sort(key=lambda f: int(f.split(' ')[0]))
-        print(files)
 
         print(f'copying files from ({source_folder}) to ({path.join(self.volume_path, base)})')
         for filename in files:
