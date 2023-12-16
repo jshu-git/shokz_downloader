@@ -44,13 +44,18 @@ class Downloader:
                     await sleep_async(self.retry_delay)
                     continue
                 result = await response.json()
-                return result['url']
+                try:
+                    return result['url']
+                except KeyError as e:
+                    await self.close_session()
+                    raise(Exception(f'<get_download_url()>: {result}'))
 
-    async def save_download(self, content, filename):
+    async def write(self, content, filename):
         '''
         This function saves the given content (i.e. a .mp3 file) with the given fileame to the save path.
         '''
-        makedirs(self.save_path, exist_ok=True)
+        if not path.exists(self.save_path):
+            makedirs(self.save_path, exist_ok=True)
         async with open_async(path.join(self.save_path, filename), 'wb') as f_out:
             await f_out.write(content)
 

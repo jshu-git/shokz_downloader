@@ -18,7 +18,7 @@ async def _download_async(downloader: Downloader, index, link):
     response, content = await downloader.get_response(url)
     filename          = await downloader.get_default_filename(response)
     filename          = f'{index} {filename}' if index else filename # prepend index if playlist
-    await downloader.save_download(content, filename)
+    await downloader.write(content, filename)
 
 async def main_async(save_path, links):
     '''
