@@ -23,4 +23,3 @@ class Shokz:
             print(f'copying: {filename}')
             copy(source_file, dest_file)
             print(f'copied: {filename}')
-

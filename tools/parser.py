@@ -1,5 +1,4 @@
 from sys      import stderr, exit
-from os       import path
 from argparse import ArgumentParser
 
 class Parser(ArgumentParser):

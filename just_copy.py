@@ -1,7 +1,7 @@
-from os               import path
+from os           import path
 
-from tools.parser     import parse_just_copy
-from tools.shokz      import Shokz
+from tools.parser import parse_just_copy
+from tools.shokz  import Shokz
 
 if __name__ == '__main__':
     args = parse_just_copy()
