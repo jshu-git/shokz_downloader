@@ -7,7 +7,7 @@ pip install -r requirements.txt
 python main.py -d <downloads folder> -n <name> -u <url> -s <Shokz path>
 ```
 
-#### Usage:
+#### Usage
 ```
 usage: main.py [-h] [-d DOWNLOADS] -n NAME -u URL [-s SHOKZ]
 
