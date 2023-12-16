@@ -20,8 +20,9 @@ class Shokz:
         base  = path.basename(source_folder)
         files = [f for f in listdir(source_folder) if f.endswith('.mp3')]
         if len(files) > 1:
-            # this assumes file names are in the format: '1 file.mp3', '2 file.mp3', etc.
-            files.sort(key=lambda f: int(''.join(filter(str.isdigit, f))))
+            # this assumes file names are in the format: '1 file.mp3', '2 file.mp3', etc. (the convention from main.py)
+            files.sort(key=lambda f: int(f.split(' ')[0]))
+        print(files)
 
         print(f'copying files from ({source_folder}) to ({path.join(self.volume_path, base)})')
         for filename in files:

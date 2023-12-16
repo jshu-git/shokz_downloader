@@ -1,4 +1,3 @@
-
 a simple python program to download youtube playlists/songs asynchronously onto a device (i.e. the [Shokz OpenSwim](https://shokz.com/products/openswim))
 
 
@@ -38,4 +37,8 @@ options:
 example usage: python just_copy.py -f ~/Desktop/Songs -s /Volumes/OpenSwim
 ```
 
-note: include quotes if values have spaces
+#### some notes:
+- include quotes if values have spaces
+- the file names are prepended with an index (if it was a playlist download) to identify the order of the files
+  - this is later used to copy the files in order, see [How to list the track order on OpenSwim](https://intl.help.shokz.com/s/article/How-to-list-the-track-order-on-OpenSwim-formerly-Xtrainerz-17) for why
+  - this does not apply for single link downloads

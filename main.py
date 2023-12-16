@@ -12,6 +12,7 @@ async def _download_async(downloader: Downloader, index, link):
     This function first sends a POST request to retrieve a url of a .mp3 file.
     It then sends a GET request to that url to download the .mp3 file and its information (such as its filename).
     It then saves the file to a folder.
+    The filename is prepended with an index (if it was a playlist download) to preserve the order of the files. This is later used to copy the files in order.
     '''
     url               = await downloader.get_download_url(link)
     response, content = await downloader.get_response(url)
