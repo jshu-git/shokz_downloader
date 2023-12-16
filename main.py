@@ -1,6 +1,6 @@
 from os               import path
-from pytube           import Playlist
 from asyncio          import run as run_async, gather, create_task, sleep as sleep_async
+from pytube           import Playlist
 
 from tools.parser     import parse
 from tools.downloader import Downloader
@@ -14,7 +14,7 @@ async def _download_async(downloader: Downloader, index, link):
 
 async def main_async(save_path, links):
     downloader = Downloader(save_path)
-    tasks = []
+    tasks      = []
 
     # single download
     if len(links) == 1:
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     # for testing
     # save_path = 'downloads'
-    # links = [
+    # links     = [
     #     'https://youtu.be/--I1pw11z1A',
     #     'https://www.youtube.com/watch?v=ee1RmJV9VaA',
     #     'https://www.youtube.com/watch?v=5HlRwXxK3S0',
