@@ -15,11 +15,11 @@ class Shokz:
     def copy_files(self, source_folder):
         '''
         This function copies the .mp3 files from the given folder to the Shokz device.
-        If the files begin with a number, they are copied over in numerical order.
+        The files are copied over in numerical order to preserve order.
         '''
         base  = path.basename(source_folder)
         files = [f for f in listdir(source_folder) if f.endswith('.mp3')]
-        # this assumes file names are in the format: '1 file.mp3', '2 file.mp3', etc. (the convention from main.py)
+        # file names should be in the format: '1 file.mp3', '2 file.mp3', etc.
         files.sort(key=lambda f: int(f.split(' ')[0]))
 
         print(f'copying files from ({source_folder}) to ({path.join(self.volume_path, base)})')
