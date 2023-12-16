@@ -1,27 +1,50 @@
-from pytube  import Playlist
-from asyncio import run as run_async, gather, create_task, sleep as sleep_async
+from os           import path
+from pytube       import Playlist
+from asyncio      import run as run_async, gather, create_task, sleep as sleep_async
 
-from tools.shokz import Shokz
+from tools.parser import parse
+from tools.shokz  import Shokz
 
-async def download(shokz: Shokz, index, link):
+async def _download_async(shokz: Shokz, index, link):
     url               = await shokz.get_download_url(link)
     response, content = await shokz.get_response(url)
     filename          = await shokz.get_default_filename(response)
-    await shokz.download_url(content, filename=f'{index} {filename}')
+    filename          = f'{index} {filename}' if index else filename # prepend index if playlist
+    await shokz.save_download(content, filename)
 
-async def main(folder_name, links):
-    shokz = Shokz(folder_name=folder_name)
+async def main_async(download_path, links):
+    shokz = Shokz(download_path)
     tasks = []
-    # stagger downloads
-    for index, link in enumerate(links):
-        await sleep_async(0.5)
-        task = create_task(download(shokz, index, link))
+
+    # single download
+    if len(links) == 1:
+        task = create_task(_download_async(shokz, 0, links[0]))
         tasks.append(task)
+    # playlist download
+    else:
+        for index, link in enumerate(links, start=1):
+            # stagger downloads after the first
+            if index > 1:
+                await sleep_async(1)
+            task = create_task(_download_async(shokz, index, link))
+            tasks.append(task)
     await gather(*tasks)
     await shokz.close_session()
 
 if __name__ == '__main__':
-    folder_name = 'Scaring the Hoes'
-    playlist    = Playlist('https://www.youtube.com/playlist?list=PLyJihFoIZ6EgoxN0E27LJr-GtuJDt6NQH')
-    links       = [link for link in playlist]
-    run_async(main(folder_name=folder_name, links=links))
+    args          = parse()
+    download_path = path.join(path.expanduser(args.downloads), args.name)
+    try:
+        links = [link for link in Playlist(args.url)]
+    except KeyError:
+        links = [args.url]
+
+    # for testing
+    # download_path = 'downloads'
+    # links = [
+    #     'https://youtu.be/--I1pw11z1A',
+    #     'https://www.youtube.com/watch?v=ee1RmJV9VaA',
+    #     'https://www.youtube.com/watch?v=5HlRwXxK3S0',
+    # ]
+
+    run_async(main_async(download_path=download_path, links=links))

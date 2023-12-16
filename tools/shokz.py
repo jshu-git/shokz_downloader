@@ -4,10 +4,10 @@ from aiofiles import open as open_async
 from asyncio  import sleep as sleep_async
 
 class Shokz:
-    def __init__(self, folder_name):
-        self.folder_name = folder_name
-        self.session     = ClientSession()
-        self.retry_delay = 10
+    def __init__(self, download_path):
+        self.download_path = download_path
+        self.session       = ClientSession()
+        self.retry_delay   = 10
 
     async def close_session(self):
         await self.session.close()
@@ -16,10 +16,13 @@ class Shokz:
         for attempt in range(1, 4):
             async with self.session.get(url, allow_redirects=True) as response:
                 if response.status == 429:
-                    print(f'get_response() rate limited, sleeping for {self.retry_delay} seconds. Attempt: {attempt}')
+                    print(f'<get_response()>: rate limited, retrying in {self.retry_delay} seconds. Attempt: {attempt}')
                     await sleep_async(self.retry_delay)
                     continue
+                filename = await self.get_default_filename(response)
+                print(f'downloading: {filename}')
                 content = await response.read()
+                print(f'downloaded: {filename}')
                 return response, content
 
     async def get_download_url(self, link):
@@ -29,23 +32,19 @@ class Shokz:
         for attempt in range(1, 4):
             async with self.session.post('https://co.wuk.sh/api/json', headers=headers, json=payload) as response:
                 if response.status == 429:
-                    print(f'get_download_url() rate limited, sleeping for {self.retry_delay} seconds. Attempt: {attempt}')
+                    print(f'<get_download_url()>: rate limited, retrying in {self.retry_delay} seconds. Attempt: {attempt}')
                     await sleep_async(self.retry_delay)
                     continue
                 result = await response.json()
                 return result['url']
 
-    async def download_url(self, content, filename):
-        print(f'Downloading: {filename}')
-
+    async def save_download(self, content, filename):
         # make download folder
-        download_folder = f'./downloads/{self.folder_name}'
-        makedirs(download_folder, exist_ok=True)
+        makedirs(self.download_path, exist_ok=True)
 
-        # download into folder
-        async with open_async(f'{download_folder}/{filename}', 'wb') as f_out:
+        # download into folder with filename
+        async with open_async(f'{self.download_path}/{filename}', 'wb') as f_out:
             await f_out.write(content)
-        print(f'Downloaded: {self.folder_name}/{filename}')
 
     async def get_default_filename(self, response):
         content_disposition = response.headers.get('content-disposition')
