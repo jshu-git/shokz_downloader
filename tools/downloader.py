@@ -3,9 +3,9 @@ from os       import makedirs
 from aiofiles import open as open_async
 from asyncio  import sleep as sleep_async
 
-class Shokz:
-    def __init__(self, download_path):
-        self.download_path = download_path
+class Downloader:
+    def __init__(self, save_path):
+        self.save_path = save_path
         self.session       = ClientSession()
         self.retry_delay   = 10
 
@@ -40,10 +40,10 @@ class Shokz:
 
     async def save_download(self, content, filename):
         # make download folder
-        makedirs(self.download_path, exist_ok=True)
+        makedirs(self.save_path, exist_ok=True)
 
         # download into folder with filename
-        async with open_async(f'{self.download_path}/{filename}', 'wb') as f_out:
+        async with open_async(f'{self.save_path}/{filename}', 'wb') as f_out:
             await f_out.write(content)
 
     async def get_default_filename(self, response):

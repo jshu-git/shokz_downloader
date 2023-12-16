@@ -1,4 +1,11 @@
+a simple python program to download youtube playlists/songs asynchronously (i.e. for the [Shokz OpenSwim](https://shokz.com/products/openswim))
+
+```shell
+pip install -r requirements.txt
+python main.py -n <name> -u <url>
 ```
+
+```text
 usage: main.py [-h] [-d DOWNLOADS] -n NAME -u URL
 
 options:
@@ -9,4 +16,4 @@ options:
 
 example usage: python main.py -n "Daniel Caesar - Freudian" -u https://www.youtube.com/playlist?list=PLDCdjwiC90THbJ4KUiy2bzku9hMAZG3vf
 ```
-note: include quotes if values contains spaces
+note: include quotes if values have spaces
