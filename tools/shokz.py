@@ -9,14 +9,18 @@ class Shokz:
         folder_path = path.join(self.volume_path, name)
         makedirs(folder_path, exist_ok=True)
 
-    def copy_files(self, folder):
-        files = [f for f in listdir(folder) if f.endswith('.mp3')]
-        files.sort(key=lambda f: int(''.join(filter(str.isdigit, f))))
+    def copy_files(self, source_folder):
+        base  = path.basename(source_folder)
+        files = [f for f in listdir(source_folder) if f.endswith('.mp3')]
+        if len(files) > 1:
+            # this assumes file names are in the format: '1 file.mp3', '2 file.mp3', etc.
+            files.sort(key=lambda f: int(''.join(filter(str.isdigit, f))))
 
-        for name in files:
-            source = path.join(folder, name)
-            dest   = path.join(self.volume_path, path.basename(folder), name)
-            print(f'copying: {name}')
-            copy(source, dest)
-            print(f'copied: {name}')
+        print(f'copying files from ({source_folder}) to ({path.join(self.volume_path, base)})')
+        for filename in files:
+            source_file = path.join(source_folder, filename)
+            dest_file   = path.join(self.volume_path, base, filename)
+            print(f'copying: {filename}')
+            copy(source_file, dest_file)
+            print(f'copied: {filename}')
 
