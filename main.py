@@ -4,8 +4,14 @@ from pytube           import Playlist
 
 from tools.parser     import parse
 from tools.downloader import Downloader
+from tools.shokz      import Shokz
 
 async def _download_async(downloader: Downloader, index, link):
+    '''
+    This function first sends a POST request to retrieve a url of a .mp3 file.
+    It then sends a GET request to that url to download the .mp3 file and its information (such as its filename).
+    It then saves the file to a specified path.
+    '''
     url               = await downloader.get_download_url(link)
     response, content = await downloader.get_response(url)
     filename          = await downloader.get_default_filename(response)
@@ -13,6 +19,9 @@ async def _download_async(downloader: Downloader, index, link):
     await downloader.save_download(content, filename)
 
 async def main_async(save_path, links):
+    '''
+    This function downloads .mp3 files (asynchronously) to a specified folder.
+    '''
     downloader = Downloader(save_path)
     tasks      = []
 
@@ -47,4 +56,8 @@ if __name__ == '__main__':
     #     'https://www.youtube.com/watch?v=5HlRwXxK3S0',
     # ]
 
-    run_async(main_async(save_path, links))
+    # run_async(main_async(save_path, links))
+
+    shokz = Shokz(volume_path='/Volumes/OpenSwim')
+    shokz.create_folder(args.name)
+    shokz.copy_files(folder=save_path)
