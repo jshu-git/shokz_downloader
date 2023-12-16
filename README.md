@@ -19,7 +19,7 @@ options:
   -d DOWNLOADS, --downloads DOWNLOADS the path to a downloads folder. defaults to ~/Downloads
   -n NAME,      --name      NAME      the desired name of the downloaded folder, i.e. "Daniel Caesar - Freudian"
   -u URL,       --url       URL       the url of a youtube playlist or link, i.e. https://youtube.com/playlist?list=PLDCdjwiC90THbJ4KUiy2bzku9hMAZG3vf
-  -s SHOKZ,     --shokz     SHOKZ     the path to the Shokz device mounted on the machine, i.e. /Volumes/OpenSwim
+  -s SHOKZ,     --shokz     SHOKZ     the path to a Shokz device mounted on the machine, i.e. /Volumes/OpenSwim
 
 example usage: python main.py -n "Daniel Caesar - Freudian" -u https://www.youtube.com/playlist?list=PLDCdjwiC90THbJ4KUiy2bzku9hMAZG3vf -s /Volumes/OpenSwim
 ```
@@ -33,7 +33,7 @@ description: this script copies .mp3 file(s) from a folder to a Shokz device
 options:
   -h,        --help          show this help message and exit
   -f FOLDER, --folder FOLDER the path to a folder with .mp3 files to copy, i.e. ~/Desktop/Songs
-  -s SHOKZ,  --shokz  SHOKZ  the path to the Shokz folder mounted on the machine, i.e. /Volumes/OpenSwim
+  -s SHOKZ,  --shokz  SHOKZ  the path to a Shokz device mounted on the machine, i.e. /Volumes/OpenSwim
 
 example usage: python just_copy.py -f ~/Desktop/Songs -s /Volumes/OpenSwim
 ```

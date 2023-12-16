@@ -42,7 +42,7 @@ async def main_async(save_path, links):
 
 if __name__ == '__main__':
     args      = parse_main()
-    save_path = path.join(path.expanduser(args.downloads), args.name) # i.e. ~/Downloads/Daniel Caesar - Freudian
+    save_path = path.join(path.expanduser(args.downloads), args.name) # i.e. /Users/username/Downloads/Daniel Caesar - Freudian
     try:
         links = [link for link in Playlist(args.url)]
     except KeyError:
@@ -52,6 +52,6 @@ if __name__ == '__main__':
 
     # copy to shokz
     if args.shokz:
-        shokz = Shokz(volume_path=args.shokz) # i.e. '/Volumes/OpenSwim'
+        shokz = Shokz(volume_path=args.shokz)
         shokz.create_folder(args.name)
         shokz.copy_files(source_folder=save_path)
