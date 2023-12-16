@@ -1,4 +1,4 @@
-a simple python program to download youtube playlists/songs asynchronously onto a device (i.e. the [Shokz OpenSwim](https://shokz.com/products/openswim))
+a simple python program to download youtube playlists/songs asynchronously onto a Shokz device (i.e. the [Shokz OpenSwim](https://shokz.com/products/openswim))
 
 
 #### Getting Started
@@ -23,22 +23,13 @@ options:
 example usage: python main.py -n "Daniel Caesar - Freudian" -u https://www.youtube.com/playlist?list=PLDCdjwiC90THbJ4KUiy2bzku9hMAZG3vf -s /Volumes/OpenSwim
 ```
 
-#### "just copy" (`just_copy.py`):
-```
-usage: just_copy.py [-h] -f FOLDER -s SHOKZ
-
-description: this script copies .mp3 file(s) from a folder to a Shokz device
-
-options:
-  -h,        --help          show this help message and exit
-  -f FOLDER, --folder FOLDER the path to a folder with .mp3 files to copy, i.e. ~/Desktop/Songs
-  -s SHOKZ,  --shokz  SHOKZ  the path to a Shokz device mounted on the machine, i.e. /Volumes/OpenSwim
-
-example usage: python just_copy.py -f ~/Desktop/Songs -s /Volumes/OpenSwim
-```
-
 #### some notes:
 - include quotes if values have spaces
 - the file names are prepended with an index (if it was a playlist download) to identify the order of the files
   - this is later used to copy the files in order, see [How to list the track order on OpenSwim](https://intl.help.shokz.com/s/article/How-to-list-the-track-order-on-OpenSwim-formerly-Xtrainerz-17) for why
   - this does not apply for single link downloads
+- there is also a `just_copy.py` script
+  - `python just_copy.py -f <folder> -s <shokz device>`
+  - this is useful if (1) you already have .mp3 files **AND** (2) you want to copy them in a certain order to a Shokz device
+    - you will need to prepend the file names with an index (i.e. `1 - song.mp3`, `2 - song.mp3`, etc.) in order for the files to be copied in order
+    - if you don't care about the order, don't bother running this script and just drag and drop the files onto the device
