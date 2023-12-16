@@ -17,19 +17,18 @@ async def _download_async(downloader: Downloader, index, link):
     url               = await downloader.get_download_url(link)
     response, content = await downloader.get_response(url)
     filename          = await downloader.get_default_filename(response)
-    filename          = f'{index} {filename}' if index else filename # prepend index if playlist
-    await downloader.write(content, filename)
+    await downloader.write(content, f'{index} {filename}')
 
 async def main_async(save_path, links):
     '''
     This function downloads .mp3 files (asynchronously) to a folder.
-    If there is more than one link, it will stagger the start of each download to mitigate rate limiting.
+    It staggers the start of each download to mitigate rate limiting.
     '''
     downloader = Downloader(save_path)
     tasks      = []
 
-    for index, link in enumerate(links):
-        if len(links) != 1 and index > 0:
+    for index, link in enumerate(links, start=1):
+        if index > 0:
             await sleep_async(1)
         tasks.append(create_task(_download_async(downloader, index, link)))
 
@@ -49,12 +48,7 @@ def copy_to_shokz(args, save_path):
 if __name__ == '__main__':
     args      = parse()
     save_path = path.join(path.expanduser(args.downloads), args.name) # i.e. /Users/username/Downloads/Daniel Caesar - Freudian
-    try:
-        # playlist download
-        links = [link for link in Playlist(args.url)]
-    except KeyError:
-        # single download
-        links = [args.url]
+    links = [link for link in Playlist(args.url)]
     run_async(main_async(save_path, links))
 
     if args.shokz:
