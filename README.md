@@ -23,8 +23,8 @@ options:
 example usage: python main.py -n "Daniel Caesar - Freudian" -u https://www.youtube.com/playlist?list=PLDCdjwiC90THbJ4KUiy2bzku9hMAZG3vf -s /Volumes/OpenSwim
 ```
 
-#### some notes:
+#### some notes
 - include quotes if values have spaces
 - the file names are prepended with an index (if it was a playlist download) to identify the order of the files
-  - this is later used to copy the files in order, see [How to list the track order on OpenSwim](https://intl.help.shokz.com/s/article/How-to-list-the-track-order-on-OpenSwim-formerly-Xtrainerz-17) for why
+  - this is later used to copy the files over in order, see [How to list the track order on OpenSwim](https://intl.help.shokz.com/s/article/How-to-list-the-track-order-on-OpenSwim-formerly-Xtrainerz-17) for why
   - this does not apply for single link downloads
