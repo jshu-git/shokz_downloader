@@ -1,4 +1,5 @@
 from os               import path
+from shutil           import rmtree
 from asyncio          import run as run_async, gather, create_task, sleep as sleep_async
 from pytube           import Playlist
 
@@ -55,3 +56,5 @@ if __name__ == '__main__':
         shokz = Shokz(volume_path=args.shokz)
         shokz.create_folder(args.name)
         shokz.copy_files(source_folder=save_path)
+        # remove locally downloaded files
+        rmtree(save_path)
