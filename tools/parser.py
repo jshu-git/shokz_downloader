@@ -8,7 +8,7 @@ class Parser(ArgumentParser):
         exit(2)
 
 def parse():
-    parser = Parser(description = 'description: this script downloads .mp3 file(s) from a youtube playlist and copies them to a folder. if you have a Shokz device, it will copy the files to the device (in order)',
+    parser = Parser(description = 'description: this script downloads .mp3 files from a youtube playlist and copies them to a folder. if you have a Shokz device, it will copy the files to the device (in order)',
                     epilog      = 'example usage: python main.py -n "Daniel Caesar - Freudian" -u https://www.youtube.com/playlist?list=PLDCdjwiC90THbJ4KUiy2bzku9hMAZG3vf')
 
     parser.add_argument('-d', '--downloads', default  = '~/Downloads', help = 'the path to a downloads folder. defaults to ~/Downloads')
