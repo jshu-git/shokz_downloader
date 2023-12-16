@@ -3,7 +3,7 @@ from shutil           import rmtree
 from asyncio          import run as run_async, gather, create_task, sleep as sleep_async
 from pytube           import Playlist
 
-from tools.parser     import parse_main
+from tools.parser     import parse
 from tools.downloader import Downloader
 from tools.shokz      import Shokz
 
@@ -42,8 +42,18 @@ async def main_async(save_path, links):
     await gather(*tasks)
     await downloader.close_session()
 
+def copy_to_shokz(args):
+    '''
+    This function copies the locally downloaded files to the Shokz device.
+    It then removes the local files.
+    '''
+    shokz = Shokz(volume_path=args.shokz)
+    shokz.create_folder(args.name)
+    shokz.copy_files(source_folder=save_path)
+    rmtree(save_path)
+
 if __name__ == '__main__':
-    args      = parse_main()
+    args      = parse()
     save_path = path.join(path.expanduser(args.downloads), args.name) # i.e. /Users/username/Downloads/Daniel Caesar - Freudian
     try:
         links = [link for link in Playlist(args.url)]
@@ -52,10 +62,5 @@ if __name__ == '__main__':
 
     run_async(main_async(save_path, links))
 
-    # copy to shokz
     if args.shokz:
-        shokz = Shokz(volume_path=args.shokz)
-        shokz.create_folder(args.name)
-        shokz.copy_files(source_folder=save_path)
-        # remove locally downloaded files
-        rmtree(save_path)
+        copy_to_shokz(args)

@@ -48,7 +48,7 @@ class Downloader:
 
     async def save_download(self, content, filename):
         '''
-        This function saves the given content (an .mp3 file) with the given fileame to the save path.
+        This function saves the given content (i.e. a .mp3 file) with the given fileame to the save path.
         '''
         makedirs(self.save_path, exist_ok=True)
         async with open_async(path.join(self.save_path, filename), 'wb') as f_out:
