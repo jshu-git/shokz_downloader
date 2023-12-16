@@ -1,11 +1,11 @@
 a simple python program to download youtube playlists/songs asynchronously (i.e. for the [Shokz OpenSwim](https://shokz.com/products/openswim))
 
-```shell
+```
 pip install -r requirements.txt
-python main.py -n <name> -u <url>
+python main.py -d <downloads folder> -n <name> -u <url>
 ```
 
-```text
+```
 usage: main.py [-h] [-d DOWNLOADS] -n NAME -u URL
 
 options:
