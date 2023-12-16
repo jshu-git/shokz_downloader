@@ -23,22 +23,16 @@ async def _download_async(downloader: Downloader, index, link):
 async def main_async(save_path, links):
     '''
     This function downloads .mp3 files (asynchronously) to a folder.
+    If there is more than one link, it will stagger the start of each download to mitigate rate limiting.
     '''
     downloader = Downloader(save_path)
     tasks      = []
 
-    # single download
-    if len(links) == 1:
-        task = create_task(_download_async(downloader, 0, links[0]))
-        tasks.append(task)
-    # playlist download
-    else:
-        for index, link in enumerate(links, start=1):
-            # stagger downloads after the first
-            if index > 1:
-                await sleep_async(1)
-            task = create_task(_download_async(downloader, index, link))
-            tasks.append(task)
+    for index, link in enumerate(links):
+        if len(links) != 1 and index > 0:
+            await sleep_async(1)
+        tasks.append(create_task(_download_async(downloader, index, link)))
+
     await gather(*tasks)
     await downloader.close_session()
 
