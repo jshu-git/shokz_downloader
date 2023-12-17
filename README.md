@@ -1,7 +1,7 @@
 a simple python program to download youtube playlists/songs asynchronously onto a Shokz device (i.e. the [Shokz OpenSwim](https://shokz.com/products/openswim))
 
 
-#### Getting Started
+#### Setup
 ```
 pip install -r requirements.txt
 python main.py -d <downloads folder> -n <name> -u <url> -s <Shokz path>
