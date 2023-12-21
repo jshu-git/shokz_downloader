@@ -48,7 +48,7 @@ class Downloader:
                     return result['url']
                 except KeyError as e:
                     await self.close_session()
-                    raise(Exception(f'<get_download_url()>: {result}'))
+                    raise(KeyError(f'<get_download_url()>: {result}'))
 
     async def write(self, content, filename):
         '''
