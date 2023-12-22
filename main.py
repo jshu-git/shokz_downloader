@@ -15,14 +15,16 @@ async def _download_async(downloader: Downloader, index, link):
     The filename is prepended with an index (if it was a playlist download) to preserve the order of the files. This is later used to copy the files in order.
     '''
     url               = await downloader.get_download_url(link)
-    response, content = await downloader.get_response(url)
-    filename          = await downloader.get_default_filename(response)
-    await downloader.write(content, f'{index} {filename}')
+    if url:
+        response, content = await downloader.get_response(url)
+        filename          = await downloader.get_default_filename(response)
+        await downloader.write(content, f'{index} {filename}')
 
 async def main_async(save_path, links):
     '''
     This function downloads .mp3 files (asynchronously) to a folder.
     It staggers the start of each download to mitigate rate limiting.
+    It returns a list of links that were unavailable so that they can be retried.
     '''
     downloader = Downloader(save_path)
     tasks      = []
@@ -31,8 +33,11 @@ async def main_async(save_path, links):
         if index > 0:
             await sleep_async(1)
         tasks.append(create_task(_download_async(downloader, index, link)))
-
     await gather(*tasks)
+
+    if downloader.unavailable:
+        await downloader.close_session()
+        return downloader.unavailable
     await downloader.close_session()
 
 def copy_to_shokz(args, save_path):
@@ -46,12 +51,20 @@ def copy_to_shokz(args, save_path):
     rmtree(save_path)
 
 if __name__ == '__main__':
-    args      = parse()
-    save_path = path.join(path.expanduser(args.downloads), args.name) # i.e. /Users/username/Downloads/Daniel Caesar - Freudian
-    links = [link for link in Playlist(args.url)]
-    run_async(main_async(save_path, links))
+    args        = parse()
+    save_path   = path.join(path.expanduser(args.downloads), args.name) # i.e. /Users/username/Downloads/Daniel Caesar - Freudian
+    links       = [link for link in Playlist(args.url)]
+    unavailable = run_async(main_async(save_path, links))
+
+    while unavailable:
+        new_links = []
+        print(f'\nthe following links were unavailable: {unavailable}')
+        for link in unavailable:
+            new_link = input(f"enter a new link to try for '{link}'': ")
+            new_links.append(new_link)
+        unavailable = run_async(main_async(save_path, new_links))
 
     if args.shokz:
-        print(f'about to copy {save_path} to Shokz device: {args.shokz}')
+        print(f"\nfinished all downloads. about to copy '{save_path}'' to Shokz device: '{args.shokz}'")
         input('make any changes to the files now if needed. press Enter to continue...')
         copy_to_shokz(args, save_path)

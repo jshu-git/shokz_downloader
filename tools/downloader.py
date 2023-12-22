@@ -9,6 +9,7 @@ class Downloader:
         self.session     = ClientSession()
         self.max_retries = 3
         self.retry_delay = 10
+        self.unavailable = []
 
     async def close_session(self):
         await self.session.close()
@@ -47,15 +48,21 @@ class Downloader:
                 try:
                     return result['url']
                 except KeyError as e:
-                    await self.close_session()
-                    raise(KeyError(f'<get_download_url()>: {result}'))
+                    unavailable = 'unavailable' in result.get('text')
+                    if unavailable:
+                        print(f'<get_download_url()>: {link} is unavailable')
+                        self.unavailable.append(link)
+                        return None
+                    else:
+                        await self.close_session()
+                        raise(KeyError(f'<get_download_url()>: {result}'))
 
     async def write(self, content, filename):
         '''
         This function saves the given content (i.e. a .mp3 file) with the given fileame to the save path.
         '''
         if not path.exists(self.save_path):
-            makedirs(self.save_path, exist_ok=True)
+            makedirs(self.save_path)
         async with open_async(path.join(self.save_path, filename), 'wb') as f_out:
             await f_out.write(content)
 
@@ -65,4 +72,6 @@ class Downloader:
         '''
         content_disposition = response.headers.get('content-disposition')
         filename            = content_disposition.split('"')[1]
+        # remove all special characters, i.e. \udcb0, \udcc9, etc.
+        filename            = ''.join([c for c in filename if ord(c) < 128])
         return filename
