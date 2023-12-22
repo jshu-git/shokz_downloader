@@ -27,7 +27,7 @@ example usage: python main.py -n "Daniel Caesar - Freudian" -u https://www.youtu
 - include quotes if values have spaces
 - the file names are prepended with an index to identify the order of the files
   - this is later used to copy the files over in order, see [How to list the track order on OpenSwim](https://intl.help.shokz.com/s/article/How-to-list-the-track-order-on-OpenSwim-formerly-Xtrainerz-17) for why
-- sometimes, the API used to download the a youtube link
+- sometimes, the API used to download a youtube link fails
   - if this happens, the program will ask to input a different link to try
   - for example, https://www.youtube.com/watch?v=sQgLiBiv26U will not download for some reason, but https://www.youtube.com/watch?v=gb1SQ2vc-5o will
 - special characters in file names are removed to avoid issues when saving
