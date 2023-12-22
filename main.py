@@ -9,12 +9,12 @@ from tools.shokz      import Shokz
 
 async def _download_async(downloader: Downloader, index, link):
     '''
-    This function first sends a POST request to retrieve a url of a .mp3 file.
-    It then sends a GET request to that url to download the .mp3 file and its information (such as its filename).
-    It then saves the file to a folder.
+    1. This function first sends a POST request to retrieve a url of a .mp3 file.
+    2. It then sends a GET request to that url to download the .mp3 file and its information (such as its filename).
+    3. It then saves the file to a folder.
     The filename is prepended with an index (if it was a playlist download) to preserve the order of the files. This is later used to copy the files in order.
     '''
-    url               = await downloader.get_download_url(link)
+    url = await downloader.get_download_url(link)
     if url:
         response, content = await downloader.get_response(url)
         filename          = await downloader.get_default_filename(response)
@@ -42,8 +42,7 @@ async def main_async(save_path, links):
 
 def copy_to_shokz(args, save_path):
     '''
-    This function copies the locally downloaded files to the Shokz device.
-    It then removes the local files.
+    This function copies the locally downloaded files to the Shokz device. It then removes the local files.
     '''
     shokz = Shokz(volume_path=args.shokz)
     shokz.create_folder(args.name)
@@ -58,13 +57,14 @@ if __name__ == '__main__':
 
     while unavailable:
         new_links = []
-        print(f'\nthe following links were unavailable: {unavailable}')
+        print(f'\nthese links were unavailable: {unavailable}')
         for link in unavailable:
-            new_link = input(f"enter a new link to try for '{link}'': ")
+            new_link = input(f"enter a new link to retry for '{link}': ")
             new_links.append(new_link)
         unavailable = run_async(main_async(save_path, new_links))
 
     if args.shokz:
-        print(f"\nfinished all downloads. about to copy '{save_path}'' to Shokz device: '{args.shokz}'")
-        input('make any changes to the files now if needed. press Enter to continue...')
+        print(f"\nfinished all downloads. about to move '{save_path}'' to Shokz device: '{args.shokz}'")
+        input('make any changes to the files now if needed. then press Enter to continue...')
         copy_to_shokz(args, save_path)
+        print('finished!')

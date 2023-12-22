@@ -18,7 +18,7 @@ class Shokz:
         The files are copied over in numerical order to preserve order.
         '''
         base  = path.basename(source_folder)
-        files = [f for f in listdir(source_folder) if f.endswith('.mp3')]
+        files = [f for f in listdir(source_folder)]
         # file names should be in the format: '1 file.mp3', '2 file.mp3', etc.
         files.sort(key=lambda f: int(f.split(' ')[0]))
 

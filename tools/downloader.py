@@ -34,6 +34,7 @@ class Downloader:
     async def get_download_url(self, link):
         '''
         This function sends a POST request to the https://co.wuk.sh/api/json API, which returns a url to a .mp3 file.
+        If the link causes an invalid request, it's added to the unavailable list, which is later used to retry the download with a different link.
         '''
         headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
         payload = {'url': link, 'aFormat': 'mp3', 'filenamePattern': 'basic', 'dubLang': False, 'isAudioOnly': True, 'isNoTTWatermark': True, 'disableMetadata': True }
@@ -59,7 +60,7 @@ class Downloader:
 
     async def write(self, content, filename):
         '''
-        This function saves the given content (i.e. a .mp3 file) with the given fileame to the save path.
+        This function saves the given content (a .mp3 file) with the given filename to the save path.
         '''
         if not path.exists(self.save_path):
             makedirs(self.save_path)
@@ -68,7 +69,7 @@ class Downloader:
 
     async def get_default_filename(self, response):
         '''
-        This function returns the default filename from the content-disposition header.
+        This function returns the default filename of the response.
         '''
         content_disposition = response.headers.get('content-disposition')
         filename            = content_disposition.split('"')[1]
