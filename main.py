@@ -1,7 +1,7 @@
 from os               import path
 from shutil           import rmtree
 from asyncio          import run as run_async, gather, create_task, sleep as sleep_async
-from pytube           import Playlist
+from pytube           import YouTube, Playlist
 
 from tools.parser     import parse
 from tools.downloader import Downloader
@@ -57,9 +57,10 @@ if __name__ == '__main__':
 
     while unavailable:
         new_links = []
-        print(f'\nthese links were unavailable: {unavailable}')
+        # print names of unavailable links
+        print(f'\nthese links were unavailable: {[YouTube(link).title for link in unavailable]}')
         for link in unavailable:
-            new_link = input(f"enter a new link to retry for '{link}': ")
+            new_link = input(f"enter a new link to retry for '{YouTube(link).title}' ({link}): ")
             new_links.append(new_link)
         unavailable = run_async(main_async(save_path, new_links))
 
