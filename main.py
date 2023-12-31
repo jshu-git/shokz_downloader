@@ -68,4 +68,4 @@ if __name__ == '__main__':
         print(f"\nfinished all downloads. about to copy '{save_path}'' to Shokz device: '{args.shokz}'")
         input('make any changes to the files now if needed. then press Enter to continue...')
         copy_to_shokz(args, save_path)
-        print('finished!')
+    print('finished!')
