@@ -9,7 +9,7 @@ from time import sleep
 if __name__ == "__main__":
     # parse args
     parser = ArgumentParser(
-        description="python copy_only.py -s ~/Desktop/<folder>",
+        description='python main2.py -n "name" -l "link"',
     )
     parser.add_argument(
         "-n",
