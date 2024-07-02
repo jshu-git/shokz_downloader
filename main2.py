@@ -44,6 +44,7 @@ if __name__ == "__main__":
         status = call(f"spotdl download {args.link}", cwd=temp, shell=True)
     except Exception as e:
         print(f"error: {e}")
+        raise
 
     # create destination folder with the source basename
     (destination / temp.name).mkdir(
@@ -51,7 +52,7 @@ if __name__ == "__main__":
     )  # /Volumes/OpenSwim/Logic - College Park
 
     # copy files to destination in numerical order
-    files = [f.name for f in temp.iterdir() if not f.name.startswith(".")]
+    files = [f.name for f in temp.iterdir()]
     files.sort(key=lambda f: f.split(" ")[0])  # 1 file.mp3, 2 file.mp3
     for name in files:
         source_file = temp / name  # .../Logic - College Park/1 file.mp3
