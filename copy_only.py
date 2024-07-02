@@ -1,7 +1,7 @@
 from os import path
 from argparse import ArgumentParser
 from pathlib import Path
-from shutil import copy, rmtree
+from shutil import copy
 from send2trash import send2trash
 
 
