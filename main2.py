@@ -3,6 +3,7 @@ from argparse import ArgumentParser
 from pathlib import Path
 from shutil import copy
 from send2trash import send2trash
+from subprocess import call
 
 
 if __name__ == "__main__":
@@ -11,8 +12,13 @@ if __name__ == "__main__":
         description="python copy_only.py -s ~/Desktop/<folder>",
     )
     parser.add_argument(
-        "-s",
-        "--source",
+        "-n",
+        "--name",
+        required=True,
+    )
+    parser.add_argument(
+        "-l",
+        "--link",
         required=True,
     )
     parser.add_argument(
@@ -22,19 +28,24 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    # validate paths
-    for arg in [args.source, args.destination]:
-        path = Path(arg)
-        if not path.exists():
-            raise Exception(f"{arg} does not exist")
-        if not path.is_dir():
-            raise Exception(f"{arg} is not a directory")
-    source = Path(args.source)
+    # validate
     destination = Path(args.destination)
+    if not destination.exists():
+        raise Exception(f"{arg} does not exist")
+    if not destination.is_dir():
+        raise Exception(f"{arg} is not a directory")
+
+    # create dir with name
+    source = Path(args.name)
+    (source).mkdir(parents=True, exist_ok=True)
+
+    # run spotdl in dir
+    status = call(f"spotdl download {args.link}", cwd=source, shell=True)
 
     # create destination folder with the source basename
     (destination / source.name).mkdir(parents=True, exist_ok=True)
-    # copy files over in numerical order
+
+    # copy files to destination in numerical order
     files = [f.name for f in source.iterdir() if not f.name.startswith(".")]
     files.sort(key=lambda f: f.split(" ")[0])  # 1 file.mp3, 2 file.mp3, etc.
     for name in files:
