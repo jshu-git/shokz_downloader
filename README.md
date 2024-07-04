@@ -36,7 +36,7 @@ Note: For demo purposes, I downloaded the album to my Desktop, but in practice i
 
 - Enclose values in quotes (if they have spaces)
 - The file names are prepended with an index to identify the order of the files, which is used to copy them to the device in order
-- Sometimes, a download will fail. Currently, there is no mechanism to retry, so you will have to the folder off of the device and retry
+- Sometimes, a download will fail. Currently, there is no mechanism to retry, so you will have to delete the folder off of the device and retry
 
 #### TODO
 
