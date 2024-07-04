@@ -11,6 +11,10 @@ Note: I'm aware of [this article](https://en.help.shokz.com/s/get-article?urlNam
 #### Setup
 
 ```
+git clone https://github.com/jshu-git/shokz_downloader.git
+cd shokz_downloader
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
