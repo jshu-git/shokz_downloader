@@ -24,9 +24,7 @@ example: python main.py -n "Daniel Caesar - Freudian" -l "https://open.spotify.c
 
 ### Demo
 
-<!-- <video src="https://github.com/jshu-git/shokz_downloader/blob/main/demo.mp4" width="70%" /> -->
-<video src="demo.mp4" placeholder="demo.mp4" autoplay loop controls muted title="demo" width="70%">
-</video>
+https://github.com/jshu-git/shokz_downloader/assets/41213299/9f162609-9501-44dd-9476-86ab8a5d1e6f
 
 Note: For demo purposes, I downloaded the album to my Desktop, but in practice it should be to the location of your device.
 
