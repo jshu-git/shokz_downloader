@@ -1,33 +1,35 @@
-a simple python program to download youtube playlists asynchronously onto a Shokz device (i.e. the [Shokz OpenSwim](https://shokz.com/products/openswim))
+a simple program to download spotify albums onto a Shokz device (i.e. the [Shokz OpenSwim](https://shokz.com/products/openswim))
 
+### Why?
+
+The goal of this program is to simplify downloading albums and transmitting them sequentially to the device to preserve track order.
+
+I usually listen to albums from start to finish. However, the Shokz OpenSwim device can't smartly detect track order. In short, the order is based on file transmission time. When simply dragging and dropping files onto the device, the order they "finish" is random, resulting in a different track order when playing them on the device. See [How to list the track order on OpenSwim](https://intl.help.shokz.com/s/article/How-to-list-the-track-order-on-OpenSwim-formerly-Xtrainerz-17) for more info.
+
+Note: I'm aware of [this article](https://en.help.shokz.com/s/get-article?urlName=how-to-list-tracks-order-EN). However, after trying the steps in it, the track order is still (seemingly) random.
 
 #### Setup
+
 ```
 pip install -r requirements.txt
-python main.py -d <downloads folder> -n <name> -u <url> -s <Shokz path>
 ```
 
 #### Usage
+
 ```
-usage: main.py [-h] [-d DOWNLOADS] -n NAME -u URL [-s SHOKZ]
+python main.py -n "name" -l "link"
 
-description: this script downloads .mp3 files from a youtube playlist and copies them to a folder. if you provide a Shokz path, it will copy the files to the device (in order)
-
-options:
-  -h,           --help                show this help message and exit
-  -d DOWNLOADS, --downloads DOWNLOADS the path to a downloads folder. defaults to ~/Downloads
-  -n NAME,      --name      NAME      the desired name of the downloaded folder, i.e. "Daniel Caesar - Freudian"
-  -u URL,       --url       URL       the url of a youtube playlist, i.e. https://youtube.com/playlist?list=PLDCdjwiC90THbJ4KUiy2bzku9hMAZG3vf
-  -s SHOKZ,     --shokz     SHOKZ     the path to a Shokz device mounted on the machine, i.e. /Volumes/OpenSwim
-
-example usage: python main.py -n "Daniel Caesar - Freudian" -u https://www.youtube.com/playlist?list=PLDCdjwiC90THbJ4KUiy2bzku9hMAZG3vf -s /Volumes/OpenSwim
+example: python main.py -n "Daniel Caesar - Freudian" -l "https://open.spotify.com/album/3xybjP7r2VsWzwvDQipdM0?si=0dKfFsQ9RRWcm_hCIpxhBw" -d /Volumes/OpenSwim
 ```
 
-#### some notes
-- include quotes if values have spaces
-- the file names are prepended with an index to identify the order of the files
-  - this is later used to copy the files over in order, see [How to list the track order on OpenSwim](https://intl.help.shokz.com/s/article/How-to-list-the-track-order-on-OpenSwim-formerly-Xtrainerz-17) for why
-- sometimes, the API used to download a youtube link fails
-  - if this happens, the program will ask to input a different link to try
-  - for example, https://www.youtube.com/watch?v=sQgLiBiv26U will not download for some reason, but https://www.youtube.com/watch?v=gb1SQ2vc-5o will
-- special characters in file names are removed to avoid issues when saving
+#### Notes
+
+- Enclose values in quotes (if they have spaces)
+- The file names are prepended with an index to identify the order of the files, which is used to copy them to the device in order
+- Sometimes, a download will fail. Currently, there is no mechanism to retry, so you will have to the folder off of the device and retry
+
+#### TODO
+
+- [] add support for playlists
+- [] smart retry when a download fails
+
