@@ -24,9 +24,9 @@ example: python main.py -n "Daniel Caesar - Freudian" -l "https://open.spotify.c
 
 ### Demo
 
-![demo](demo.mp4)
+![](demo.mp4)
 
-Note: For demo purposes, I downloaded the ablum to my Desktop folder, but in practice, it should be to the location of your device.
+Note: For demo purposes, I downloaded the album to my Desktop, but in practice it should be to the location of your device.
 
 #### Notes
 
