@@ -17,9 +17,9 @@ pip install -r requirements.txt
 #### Usage
 
 ```
-python main.py -n "name" -l "link"
+python main.py -n "name" -l "link" -d /Volumes/OpenSwim/
 
-example: python main.py -n "Daniel Caesar - Freudian" -l "https://open.spotify.com/album/3xybjP7r2VsWzwvDQipdM0?si=0dKfFsQ9RRWcm_hCIpxhBw" -d /Volumes/OpenSwim
+example: python main.py -n "Daniel Caesar - Freudian" -l "https://open.spotify.com/album/3xybjP7r2VsWzwvDQipdM0" -d /Volumes/OpenSwim
 ```
 
 #### Notes
@@ -32,4 +32,3 @@ example: python main.py -n "Daniel Caesar - Freudian" -l "https://open.spotify.c
 
 - [] add support for playlists
 - [] smart retry when a download fails
-
