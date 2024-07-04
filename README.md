@@ -22,6 +22,12 @@ python main.py -n "name" -l "link" -d /Volumes/OpenSwim/
 example: python main.py -n "Daniel Caesar - Freudian" -l "https://open.spotify.com/album/3xybjP7r2VsWzwvDQipdM0" -d /Volumes/OpenSwim
 ```
 
+### Demo
+
+![demo](demo.mp4)
+
+Note: For demo purposes, I downloaded the ablum to my Desktop folder, but in practice, it should be to the location of your device.
+
 #### Notes
 
 - Enclose values in quotes (if they have spaces)
