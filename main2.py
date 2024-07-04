@@ -31,17 +31,28 @@ if __name__ == "__main__":
     # validate
     destination = Path(args.destination)
     if not destination.exists():
-        raise Exception(f"{arg} does not exist")
+        raise Exception(f"{args.destination} does not exist")
     if not destination.is_dir():
-        raise Exception(f"{arg} is not a directory")
+        raise Exception(f"{args.destination} is not a directory")
 
     # create dir with name
     temp = Path(args.name)
     (temp).mkdir(parents=True, exist_ok=True)
 
     # run spotdl in dir
+    spotdl_args = [
+        # main options
+        "--audio {youtube-music,youtube}",
+        # output options
+        "--preload",
+        '--output "{list-position} {title}.{output-ext}"',
+        "--print-errors",
+        "--skip-album-art",
+    ]
+    command = f'spotdl download "{args.link}" {' '.join(spotdl_args)}'
+    print(f"running: {command}")
     try:
-        status = call(f"spotdl download {args.link}", cwd=temp, shell=True)
+        status = call(command, cwd=temp, shell=True)
     except Exception as e:
         print(f"error: {e}")
         raise
