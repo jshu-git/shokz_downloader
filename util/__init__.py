@@ -1,6 +1,7 @@
 from pathlib import Path
 from shutil import copy
 from time import sleep
+from natsort import natsorted
 
 
 def validate_paths(paths: list[Path]) -> None:
@@ -14,8 +15,7 @@ def validate_paths(paths: list[Path]) -> None:
 # currently assumes numerical order
 def copy_files(source: Path, destination: Path) -> None:
     files = [f.name for f in source.iterdir()]
-    files.sort(key=lambda f: f.split(" ")[0])  # 1 file.mp3, 2 file.mp3
-    for name in files:
+    for name in natsorted(files):
         source_file = source / name
         dest_file = destination / source.name / name
         print(f"copying: {name}")

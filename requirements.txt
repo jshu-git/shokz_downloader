@@ -21,6 +21,7 @@ markdown-it-py==3.0.0
 mdurl==0.1.2
 multidict==6.0.4
 mutagen==1.47.0
+natsort==8.4.0
 nodejs-wheel-binaries==20.15.0
 platformdirs==4.2.2
 pycryptodomex==3.20.0
