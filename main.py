@@ -1,15 +1,15 @@
 from argparse import ArgumentParser
 from pathlib import Path
-from shutil import copy
-from send2trash import send2trash
 from subprocess import call
-from time import sleep
+from send2trash import send2trash
+
+from util import validate_paths, copy_files
 
 
 if __name__ == "__main__":
     # parse args
     parser = ArgumentParser(
-        description='python main.py -n "name" -l "link"',
+        description='python main.py -n "album name" -l "spotify link" -d "destination folder"',
     )
     parser.add_argument(
         "-n",
@@ -27,19 +27,16 @@ if __name__ == "__main__":
         default="/Volumes/OpenSwim",
     )
     args = parser.parse_args()
+    destination = Path(args.destination)
 
     # validate
-    destination = Path(args.destination)
-    if not destination.exists():
-        raise Exception(f"{args.destination} does not exist")
-    if not destination.is_dir():
-        raise Exception(f"{args.destination} is not a directory")
+    validate_paths(paths=[destination])
 
-    # create dir with name
+    # create temp dir with album name
     temp = Path(args.name)
     (temp).mkdir(parents=True, exist_ok=True)
 
-    # run spotdl in dir
+    # run spotdl in temp dir
     spotdl_args = [
         # main options
         "--audio {youtube-music,youtube}",
@@ -61,14 +58,7 @@ if __name__ == "__main__":
     (destination / temp.name).mkdir(parents=True, exist_ok=True)
 
     # copy files to destination in numerical order
-    files = [f.name for f in temp.iterdir()]
-    files.sort(key=lambda f: f.split(" ")[0])  # 1 file.mp3, 2 file.mp3
-    for name in files:
-        source_file = temp / name
-        dest_file = destination / temp.name / name
-        print(f"copying: {name}")
-        copy(source_file, dest_file)
-        sleep(0.1)
+    copy_files(source=temp, destination=destination)
 
     # remove source
     send2trash(str(temp))
