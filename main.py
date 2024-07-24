@@ -27,13 +27,15 @@ if __name__ == "__main__":
         default="/Volumes/OpenSwim",
     )
     args = parser.parse_args()
+    name = args.name
+    link - args.link
     destination = Path(args.destination)
 
     # validate
     validate_paths(paths=[destination])
 
     # create temp dir with album name
-    temp = Path(args.name)
+    temp = Path(name)
     (temp).mkdir(parents=True, exist_ok=True)
 
     # run spotdl in temp dir
@@ -46,7 +48,7 @@ if __name__ == "__main__":
         "--print-errors",
         "--skip-album-art",
     ]
-    command = f'spotdl download "{args.link}" {' '.join(spotdl_args)}'
+    command = f'spotdl download "{link}" {' '.join(spotdl_args)}'
     print(f"running: {command}")
     try:
         status = call(command, cwd=temp, shell=True)
