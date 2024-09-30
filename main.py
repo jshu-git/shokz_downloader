@@ -28,7 +28,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     name = args.name
-    link - args.link
+    link = args.link
     destination = Path(args.destination)
 
     # validate
