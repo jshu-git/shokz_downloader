@@ -7,9 +7,9 @@ from natsort import natsorted
 def validate_paths(paths: list[Path]) -> None:
     for path in paths:
         if not path.exists():
-            raise Exception(f"{args.destination} does not exist")
+            raise Exception(f"{path} does not exist")
         if not path.is_dir():
-            raise Exception(f"{args.destination} is not a directory")
+            raise Exception(f"{path} is not a directory")
 
 
 # currently assumes numerical order
