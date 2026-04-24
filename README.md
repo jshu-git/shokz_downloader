@@ -1,3 +1,7 @@
+I rewrote this in Rust. See [ShokzDownloader](https://github.com/j4shu/ShokzDownloader) for instructions.
+
+---
+
 a simple program to download spotify albums onto a Shokz device (i.e. the [Shokz OpenSwim](https://shokz.com/products/openswim))
 
 ### Why?
